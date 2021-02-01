@@ -35,8 +35,9 @@ object Ingest extends App {
     case h :: _ => Source.fromFile(h)
   }
 
-  for (m <- ingester(source)) println(m.properties.mkString(", "))
-  source.close()
+
+  val kiwiMovies = for (m <- ingester(source); if (m.properties(20)=="New Zealand")) yield m
+  println(kiwiMovies.size)
 
   // Please note that an alternative to the definition of source above would be as in the following comment:
   //  val source = Source.fromFile(if (args.length>0) args.head else "movie_metadata_5000.csv")
